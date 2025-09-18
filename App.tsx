@@ -70,7 +70,7 @@ const App: React.FC = () => {
     }
 
     if (profile?.role === 'admin') {
-        return <AdminPage user={session.user} />;
+        return <AdminPage user={session.user} profile={profile} />;
     }
 
     return <AppPage user={session.user} profile={profile} />;
