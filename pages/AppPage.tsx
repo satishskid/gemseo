@@ -207,7 +207,7 @@ export const AppPage: React.FC<AppPageProps> = ({ user, profile: initialProfile 
                 {results && !isLoading && <ResultsDisplay results={results} />}
             </main>
             <footer className="text-center mt-8 text-sm text-gray-500">
-                <p>Powered by Google Gemini | LocalRank AI for India</p>
+                <p>powered by greybrain.ai</p>
             </footer>
         </div>
     );

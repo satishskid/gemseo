@@ -1,6 +1,6 @@
-# LocalRank AI - India SEO Assistant 🇮🇳
+# gbseo
 
-LocalRank AI is a powerful, self-hosted web application designed to generate comprehensive, hyper-local SEO and content strategies for businesses in India. It's specifically tailored for the Healthcare, EdTech, and D2C sectors.
+gbseo is a powerful, self-hosted web application designed to generate comprehensive, hyper-local SEO and content strategies for businesses in India. It's specifically tailored for the Healthcare, EdTech, and D2C sectors.
 
 Powered by the Google Gemini API, it provides actionable insights including keywords, technical SEO audits, Google Business Profile recommendations, pillar content, blog posts, and a full campaign calendar.
 
