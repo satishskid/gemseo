@@ -14,7 +14,7 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
     const systemPrompt = `You are an expert SEO strategist and digital marketing genius specializing in the Indian market for healthcare (providers, payers, pharma), edtech, and D2C personal care products. Your task is to provide a complete, hyper-local, and actionable growth plan. Structure your response perfectly into the requested JSON format. Your content must be human-like, pass AI detection, and be optimized for conversions in the Indian context. All content generated (pillar posts, blogs, landing pages) must be comprehensive, well-structured with HTML, and at least 1000 words each.`;
 
     let campaignDataSection = '';
-    if (formData.campaignData.trim() !== '') {
+    if (formData.campaignData && formData.campaignData.trim() !== '') {
         campaignDataSection = `
         ## Campaign Performance / SEO Audit Data for Analysis ##
         ${formData.campaignData}
@@ -28,11 +28,11 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
         `Target Audience: ${formData.targetAudience}`
     ];
 
-    if (formData.websiteUrl.trim()) {
+    if (formData.websiteUrl && formData.websiteUrl.trim()) {
         businessProfileParts.push(`Website URL: ${formData.websiteUrl.trim()}`);
     }
 
-    if (formData.brandVoice.trim()) {
+    if (formData.brandVoice && formData.brandVoice.trim()) {
         businessProfileParts.push(`Brand Voice: ${formData.brandVoice.trim()}`);
     }
     
@@ -68,7 +68,7 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
             blogPosts: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, content: { type: Type.STRING } } } },
             landingPages: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, content: { type: Type.STRING } } } },
             publishingCalendar: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { week: { type: Type.STRING }, day: { type: Type.STRING }, platform: { type: Type.STRING }, title: {type: Type.STRING}, content: {type: Type.STRING}, notes: { type: Type.STRING } } } },
-            campaignAnalysis: { type: [Type.OBJECT, Type.NULL], properties: { summary: { type: Type.STRING }, keyObservations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { metric: { type: Type.STRING }, finding: { type: Type.STRING } } } }, recommendations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { recommendation: { type: Type.STRING }, impact: { type: Type.STRING } } } } } },
+            campaignAnalysis: { type: Type.OBJECT, properties: { summary: { type: Type.STRING }, keyObservations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { metric: { type: Type.STRING }, finding: { type: Type.STRING } } } }, recommendations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { recommendation: { type: Type.STRING }, impact: { type: Type.STRING } } } } }, nullable: true },
             technicalSeoAudit: { type: Type.OBJECT, properties: { auditSummary: { type: Type.STRING }, robotsTxt: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} }, schemaMarkup: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} }, performanceFixes: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, checklist: {type: Type.ARRAY, items: {type: Type.STRING}}} }, onPageFixes: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, checklist: {type: Type.ARRAY, items: {type: Type.STRING}}} }, llmVisibility: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} } } },
             gbpRecommendations: { type: Type.OBJECT, properties: { profileSetup: { type: Type.OBJECT, properties: { recommendation: { type: Type.STRING }, actionableSteps: { type: Type.ARRAY, items: { type: Type.STRING }}}}, postSuggestions: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, content: { type: Type.STRING }}}}, reviewStrategy: { type: Type.STRING }}},
             qualityChecklist: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { task: { type: Type.STRING }, description: { type: Type.STRING }}}}
