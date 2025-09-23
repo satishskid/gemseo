@@ -11,7 +11,9 @@ const getAIClient = (apiKey: string) => {
 export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string): Promise<GeminiResults> => {
     const ai = getAIClient(apiKey);
     
-    const systemPrompt = `You are an expert SEO strategist and digital marketing genius specializing in the Indian market for healthcare (providers, payers, pharma), edtech, and D2C personal care products. Your task is to provide a complete, hyper-local, and actionable growth plan. Structure your response perfectly into the requested JSON format. Your content must be human-like, pass AI detection, and be optimized for conversions in the Indian context. All content generated (pillar posts, blogs, landing pages) must be comprehensive, well-structured with HTML, and at least 1000 words each.`;
+    const systemPrompt = `You are an expert SEO strategist and digital marketing genius specializing in the Indian market for healthcare (providers, payers, pharma), edtech, and D2C personal care products. Your task is to provide a complete, hyper-local, and actionable growth plan. Structure your response perfectly into the requested JSON format. Your content must be human-like, pass AI detection, and be optimized for conversions in the Indian context. All content generated (pillar posts, blogs, landing pages) must be comprehensive, well-structured with HTML, and at least 1000 words each.
+
+IMPORTANT: When target locations or target audiences contain comma-separated values, create content that addresses multiple locations/audiences strategically. Use this information to create more comprehensive and targeted content that serves different segments effectively.`;
 
     let campaignDataSection = '';
     if (formData.campaignData && formData.campaignData.trim() !== '') {
@@ -35,6 +37,10 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
     if (formData.brandVoice && formData.brandVoice.trim()) {
         businessProfileParts.push(`Brand Voice: ${formData.brandVoice.trim()}`);
     }
+
+    if (formData.socialMediaHandles && formData.socialMediaHandles.trim()) {
+        businessProfileParts.push(`Social Media Handles: ${formData.socialMediaHandles.trim()}`);
+    }
     
     const businessProfile = businessProfileParts.join('\n        ');
 
@@ -57,7 +63,7 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
         6.  **Campaign Analysis:** If campaign data is provided, perform a detailed analysis and provide actionable recommendations. If not, make this field null.
         7.  **Technical SEO Audit:** A full technical audit with code examples for robots.txt, schema, etc.
         8.  **Google Business Profile Recommendations:** A strategy for optimizing the GBP listing.
-        9.  **Social Media Posts:** Create 5-8 ready-to-use social media posts for different platforms (Facebook, Instagram, Twitter, LinkedIn, TikTok) with engaging content, relevant hashtags, and clear calls-to-action.
+        9.  **Social Media Posts:** Create 5-8 ready-to-use social media posts for different platforms (Facebook, Instagram, Twitter, LinkedIn, TikTok) with engaging content, relevant hashtags, and clear calls-to-action. If social media handles are provided, reference them appropriately in the content strategy.
         10. **Quality Checklist:** A list of human-review steps to perform before publishing the content.
     `;
     

@@ -17,6 +17,7 @@ export interface SeoFormData {
     campaignData: string;
     websiteUrl: string;
     brandVoice: string;
+    socialMediaHandles: string;
 }
 
 export interface Keyword {

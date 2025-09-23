@@ -31,8 +31,9 @@ export const SEOForm: React.FC<SEOFormProps> = ({
                     <input type="text" id="businessName" name="businessName" value={formData.businessName} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 'Arogya Multispeciality Clinic'" />
                 </div>
                 <div>
-                    <label htmlFor="pincode" className="block text-sm font-medium text-gray-300">Pincode / Target City</label>
-                    <input type="text" id="pincode" name="pincode" value={formData.pincode} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., '560034' or 'Koramangala, Bengaluru'" />
+                    <label htmlFor="pincode" className="block text-sm font-medium text-gray-300">Target Locations</label>
+                    <input type="text" id="pincode" name="pincode" value={formData.pincode} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., '560034, 560001' or 'Koramangala, Indiranagar, HSR Layout'" />
+                    <p className="mt-1 text-xs text-gray-400">Use comma-separated values for multiple locations or pincodes</p>
                 </div>
             </div>
             <div>
@@ -53,7 +54,8 @@ export const SEOForm: React.FC<SEOFormProps> = ({
                         <span>{isGeneratingAudience ? 'Generating...' : 'Auto-Generate'}</span>
                     </button>
                 </div>
-                <input type="text" id="targetAudience" name="targetAudience" value={formData.targetAudience} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 'Families in South Bengaluru seeking pediatric care'" />
+                <input type="text" id="targetAudience" name="targetAudience" value={formData.targetAudience} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 'Families seeking pediatric care, Young professionals, Tech entrepreneurs'" />
+                <p className="mt-1 text-xs text-gray-400">Use comma-separated values for multiple audience types</p>
             </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -65,6 +67,28 @@ export const SEOForm: React.FC<SEOFormProps> = ({
                     <label htmlFor="brandVoice" className="block text-sm font-medium text-gray-300">Brand Voice (Optional)</label>
                     <input type="text" id="brandVoice" name="brandVoice" value={formData.brandVoice} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 'Professional, empathetic, and reassuring'" />
                 </div>
+            </div>
+            <div>
+                <div className="flex items-center gap-2 mb-2">
+                    <label htmlFor="socialMediaHandles" className="block text-sm font-medium text-gray-300">Social Media Handles (Optional)</label>
+                    <div className="group relative">
+                        <svg className="w-4 h-4 text-gray-400 cursor-help" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                        </svg>
+                        <div className="absolute bottom-6 left-0 w-80 p-3 bg-gray-800 border border-gray-600 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                            <p className="text-xs text-gray-300 mb-2"><strong>How to find your social media handles:</strong></p>
+                            <ul className="text-xs text-gray-400 space-y-1">
+                                <li>• <strong>Instagram:</strong> Go to your profile, handle is after @</li>
+                                <li>• <strong>Facebook:</strong> Check your page URL or About section</li>
+                                <li>• <strong>Twitter/X:</strong> Your username after @ in your profile</li>
+                                <li>• <strong>LinkedIn:</strong> Company page URL or profile handle</li>
+                                <li>• <strong>YouTube:</strong> Channel URL or custom handle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" id="socialMediaHandles" name="socialMediaHandles" value={formData.socialMediaHandles} onChange={onFormChange} className="mt-1 block w-full bg-gray-900 border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., '@yourcompany, facebook.com/yourpage, linkedin.com/company/yourcompany'" />
+                <p className="mt-1 text-xs text-gray-400">Enter your social media handles or URLs, separated by commas</p>
             </div>
             <div>
                 <div className="flex items-center gap-2 mb-2">

@@ -23,14 +23,14 @@ export const AppPage: React.FC<AppPageProps> = ({ user, profile: initialProfile 
             const savedData = localStorage.getItem('seoFormData');
             const initialData = {
                 businessName: '', pincode: '', businessDescription: '',
-                targetAudience: '', campaignData: '', websiteUrl: '', brandVoice: '',
+                targetAudience: '', campaignData: '', websiteUrl: '', brandVoice: '', socialMediaHandles: '',
             };
             return savedData ? { ...initialData, ...JSON.parse(savedData) } : initialData;
         } catch (error) {
             console.error("Error reading from localStorage", error);
             return {
                 businessName: '', pincode: '', businessDescription: '',
-                targetAudience: '', campaignData: '', websiteUrl: '', brandVoice: '',
+                targetAudience: '', campaignData: '', websiteUrl: '', brandVoice: '', socialMediaHandles: '',
             };
         }
     });
