@@ -88,6 +88,15 @@ export interface QualityChecklistItem {
     description: string;
 }
 
+export interface SocialMediaPost {
+    platform: 'Facebook' | 'Instagram' | 'Twitter' | 'LinkedIn' | 'TikTok';
+    title: string;
+    content: string;
+    hashtags: string[];
+    callToAction: string;
+    imagePrompt?: string;
+}
+
 export interface GeminiResults {
     keywords: Keyword[];
     pillarPost: Post;
@@ -98,4 +107,5 @@ export interface GeminiResults {
     technicalSeoAudit: TechnicalSeoAudit;
     gbpRecommendations: GbpRecommendations;
     qualityChecklist: QualityChecklistItem[];
+    socialMediaPosts: SocialMediaPost[];
 }

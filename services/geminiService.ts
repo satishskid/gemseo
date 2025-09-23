@@ -57,7 +57,8 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
         6.  **Campaign Analysis:** If campaign data is provided, perform a detailed analysis and provide actionable recommendations. If not, make this field null.
         7.  **Technical SEO Audit:** A full technical audit with code examples for robots.txt, schema, etc.
         8.  **Google Business Profile Recommendations:** A strategy for optimizing the GBP listing.
-        9.  **Quality Checklist:** A list of human-review steps to perform before publishing the content.
+        9.  **Social Media Posts:** Create 5-8 ready-to-use social media posts for different platforms (Facebook, Instagram, Twitter, LinkedIn, TikTok) with engaging content, relevant hashtags, and clear calls-to-action.
+        10. **Quality Checklist:** A list of human-review steps to perform before publishing the content.
     `;
     
     const schema = {
@@ -71,7 +72,8 @@ export const generateGrowthPlan = async (formData: SeoFormData, apiKey: string):
             campaignAnalysis: { type: Type.OBJECT, properties: { summary: { type: Type.STRING }, keyObservations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { metric: { type: Type.STRING }, finding: { type: Type.STRING } } } }, recommendations: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { recommendation: { type: Type.STRING }, impact: { type: Type.STRING } } } } }, nullable: true },
             technicalSeoAudit: { type: Type.OBJECT, properties: { auditSummary: { type: Type.STRING }, robotsTxt: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} }, schemaMarkup: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} }, performanceFixes: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, checklist: {type: Type.ARRAY, items: {type: Type.STRING}}} }, onPageFixes: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, checklist: {type: Type.ARRAY, items: {type: Type.STRING}}} }, llmVisibility: { type: Type.OBJECT, properties: { recommendation: {type: Type.STRING }, code: {type: Type.STRING}} } } },
             gbpRecommendations: { type: Type.OBJECT, properties: { profileSetup: { type: Type.OBJECT, properties: { recommendation: { type: Type.STRING }, actionableSteps: { type: Type.ARRAY, items: { type: Type.STRING }}}}, postSuggestions: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, content: { type: Type.STRING }}}}, reviewStrategy: { type: Type.STRING }}},
-            qualityChecklist: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { task: { type: Type.STRING }, description: { type: Type.STRING }}}}
+            qualityChecklist: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { task: { type: Type.STRING }, description: { type: Type.STRING }}}},
+            socialMediaPosts: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { platform: { type: Type.STRING }, title: { type: Type.STRING }, content: { type: Type.STRING }, hashtags: { type: Type.ARRAY, items: { type: Type.STRING }}, callToAction: { type: Type.STRING }, imagePrompt: { type: Type.STRING }}}}
         }
     };
 

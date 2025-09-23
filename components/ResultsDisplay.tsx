@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import type { GeminiResults, Keyword, Post, CampaignAnalysis, TechnicalSeoAudit, GbpRecommendations, QualityChecklistItem } from '../types';
+import type { GeminiResults, Keyword, Post, CampaignAnalysis, TechnicalSeoAudit, GbpRecommendations, QualityChecklistItem, SocialMediaPost } from '../types';
 import { CampaignCalendar } from './CampaignCalendar';
 
-type Tab = 'keywords' | 'techSeo' | 'gbp' | 'landingPages' | 'pillar' | 'blogs' | 'calendar' | 'quality' | 'analysis';
+type Tab = 'keywords' | 'techSeo' | 'gbp' | 'landingPages' | 'pillar' | 'blogs' | 'socialMedia' | 'calendar' | 'quality' | 'analysis';
 
 const TABS: { id: Tab; label: string }[] = [
     { id: 'keywords', label: 'Keywords' },
@@ -11,6 +11,7 @@ const TABS: { id: Tab; label: string }[] = [
     { id: 'landingPages', label: 'Landing Pages' },
     { id: 'pillar', label: 'Pillar Content' },
     { id: 'blogs', label: 'Blog Posts' },
+    { id: 'socialMedia', label: 'Social Media Posts' },
     { id: 'calendar', label: 'Campaign Calendar' },
     { id: 'quality', label: 'Quality Checklist' },
     { id: 'analysis', label: 'Campaign Analysis' },
@@ -185,6 +186,97 @@ const QualityChecklistTab: React.FC<{ items: QualityChecklistItem[] }> = ({ item
     </div>
 );
 
+const SocialMediaTab: React.FC<{ posts: SocialMediaPost[] }> = ({ posts }) => {
+    const [copyTexts, setCopyTexts] = useState<{ [key: number]: string }>({});
+
+    const copyToClipboard = (content: string, index: number) => {
+        navigator.clipboard.writeText(content).then(() => {
+            setCopyTexts(prev => ({ ...prev, [index]: 'Copied!' }));
+            setTimeout(() => {
+                setCopyTexts(prev => ({ ...prev, [index]: 'Copy Post' }));
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    };
+
+    const getPlatformIcon = (platform: string) => {
+        switch (platform.toLowerCase()) {
+            case 'facebook': return '📘';
+            case 'instagram': return '📷';
+            case 'twitter': return '🐦';
+            case 'linkedin': return '💼';
+            case 'tiktok': return '🎵';
+            default: return '📱';
+        }
+    };
+
+    const getPlatformColor = (platform: string) => {
+        switch (platform.toLowerCase()) {
+            case 'facebook': return 'border-blue-500';
+            case 'instagram': return 'border-pink-500';
+            case 'twitter': return 'border-sky-500';
+            case 'linkedin': return 'border-blue-600';
+            case 'tiktok': return 'border-purple-500';
+            default: return 'border-gray-500';
+        }
+    };
+
+    return (
+        <div>
+            <h2 className="text-2xl font-bold text-white mb-4">Social Media Posts</h2>
+            <p className="text-gray-400 mb-6">Ready-to-use social media content for different platforms. Copy and customize as needed.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {posts.map((post, index) => (
+                    <div key={index} className={`bg-gray-800 p-6 rounded-lg border-2 ${getPlatformColor(post.platform)} hover:border-opacity-80 transition`}>
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <span className="text-2xl">{getPlatformIcon(post.platform)}</span>
+                                <h3 className="font-semibold text-lg text-white">{post.platform}</h3>
+                            </div>
+                            <button
+                                onClick={() => copyToClipboard(`${post.title}\n\n${post.content}\n\n${post.hashtags.join(' ')}\n\n${post.callToAction}`, index)}
+                                className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-md transition"
+                            >
+                                {copyTexts[index] || 'Copy Post'}
+                            </button>
+                        </div>
+                        
+                        <div className="space-y-3">
+                            <div>
+                                <h4 className="font-medium text-indigo-400 mb-1">Title:</h4>
+                                <p className="text-gray-300 text-sm">{post.title}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-medium text-indigo-400 mb-1">Content:</h4>
+                                <p className="text-gray-300 text-sm whitespace-pre-wrap">{post.content}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-medium text-indigo-400 mb-1">Hashtags:</h4>
+                                <p className="text-blue-400 text-sm">{post.hashtags.join(' ')}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-medium text-indigo-400 mb-1">Call to Action:</h4>
+                                <p className="text-gray-300 text-sm font-medium">{post.callToAction}</p>
+                            </div>
+                            
+                            {post.imagePrompt && (
+                                <div>
+                                    <h4 className="font-medium text-indigo-400 mb-1">Image Suggestion:</h4>
+                                    <p className="text-gray-400 text-xs italic">{post.imagePrompt}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const AnalysisTab: React.FC<{ analysis: CampaignAnalysis }> = ({ analysis }) => (
     <div className="space-y-8">
         <div>
@@ -276,6 +368,7 @@ export const ResultsDisplay: React.FC<{ results: GeminiResults }> = ({ results }
                         </div>
                     </div>
                 )}
+                {activeTab === 'socialMedia' && <SocialMediaTab posts={results.socialMediaPosts} />}
                 {activeTab === 'calendar' && <CampaignCalendar initialItems={results.publishingCalendar} />}
                 {activeTab === 'quality' && <QualityChecklistTab items={results.qualityChecklist} />}
                 {activeTab === 'analysis' && results.campaignAnalysis && <AnalysisTab analysis={results.campaignAnalysis} />}
