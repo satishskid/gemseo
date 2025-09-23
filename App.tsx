@@ -69,7 +69,8 @@ const App: React.FC = () => {
         return <AuthPage />;
     }
 
-    if (profile?.role === 'admin') {
+    // Force admin access for satish@skids.health
+    if (session.user.email === 'satish@skids.health' || profile?.role === 'admin') {
         return <AdminPage user={session.user} profile={profile} />;
     }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import type { User, Profile } from '../types';
 import { AppPage } from './AppPage';
+import UserWhitelist from '../components/admin/UserWhitelist';
+import LicenseManager from '../components/admin/LicenseManager';
 
 interface AdminPageProps {
     user: User;
@@ -28,6 +30,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({ user, profile }) => {
                             <button onClick={() => setActiveTab('dashboard')} className={`pb-2 text-sm font-semibold ${activeTab === 'dashboard' ? 'text-indigo-400 border-b-2 border-indigo-400' : 'text-gray-400 hover:text-indigo-300'}`}>
                                 Dashboard
                             </button>
+                            <button onClick={() => setActiveTab('user-management')} className={`ml-4 pb-2 text-sm font-semibold ${activeTab === 'user-management' ? 'text-indigo-400 border-b-2 border-indigo-400' : 'text-gray-400 hover:text-indigo-300'}`}>
+                                User Management
+                            </button>
+                            <button onClick={() => setActiveTab('license-management')} className={`ml-4 pb-2 text-sm font-semibold ${activeTab === 'license-management' ? 'text-indigo-400 border-b-2 border-indigo-400' : 'text-gray-400 hover:text-indigo-300'}`}>
+                                License Management
+                            </button>
                             <button onClick={() => setActiveTab('seo')} className={`ml-4 pb-2 text-sm font-semibold ${activeTab === 'seo' ? 'text-indigo-400 border-b-2 border-indigo-400' : 'text-gray-400 hover:text-indigo-300'}`}>
                                 SEO Application
                             </button>
@@ -51,6 +59,14 @@ export const AdminPage: React.FC<AdminPageProps> = ({ user, profile }) => {
                             <li>Coupon and Promotion Management</li>
                         </ul>
                     </div>
+                )}
+
+                {activeTab === 'user-management' && (
+                    <UserWhitelist />
+                )}
+
+                {activeTab === 'license-management' && (
+                    <LicenseManager />
                 )}
 
                 {activeTab === 'seo' && <AppPage user={user} profile={profile} />}
