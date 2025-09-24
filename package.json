@@ -6,7 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "vitest run",
+    "test:integration": "node --loader ts-node/esm scripts/testArchitecturalImprovements.ts",
+    "test:security": "node --loader ts-node/esm scripts/testArchitecturalImprovements.ts --security",
+    "test:performance": "node --loader ts-node/esm scripts/testArchitecturalImprovements.ts --performance",
+    "test:accessibility": "node --loader ts-node/esm scripts/testArchitecturalImprovements.ts --accessibility",
+    "test:smoke": "node --loader ts-node/esm scripts/testArchitecturalImprovements.ts --smoke",
+    "deploy:staging": "./scripts/deploy-feature-branch.sh",
+    "deploy:rollback": "./scripts/deploy-feature-branch.sh rollback",
+    "feature:test": "npm run test:integration && npm run deploy:staging",
+    "feature:rollback": "npm run deploy:rollback"
   },
   "dependencies": {
     "@google/genai": "0.15.0",
