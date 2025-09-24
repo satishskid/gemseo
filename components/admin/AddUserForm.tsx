@@ -139,32 +139,31 @@ The gbseo Team`;
     }
 
     // Continue with success flow even if RLS blocked the insert
-      // Send welcome email
-      const appUrl = window.location.origin;
-      const emailResult = await sendWelcomeEmail({
-        email: email.toLowerCase().trim(),
-        appUrl: appUrl
-      });
+    // Send welcome email
+    const appUrl = window.location.origin;
+    const emailResult = await sendWelcomeEmail({
+      email: email.toLowerCase().trim(),
+      appUrl: appUrl
+    });
 
-      let successMessage = `User ${email} has been successfully added to the whitelist!`;
-      
-      if (error?.code === '42501') {
-        successMessage += ' (Note: Database storage blocked by security policies, but user can still access via hardcoded whitelist)';
-      }
-      
-      if (emailResult.success) {
-        successMessage += ' Welcome email sent successfully!';
-      } else {
-        successMessage += ` Note: Welcome email failed to send (${emailResult.error}). User can still access the platform.`;
-      }
-
-      setSuccess(successMessage);
-      setEmail('');
-      onUserAdded();
-      
-      // Clear success message after 5 seconds (longer to read instructions)
-      setTimeout(() => setSuccess(''), 5000);
+    let successMessage = `User ${email} has been successfully added to the whitelist!`;
+    
+    if (error?.code === '42501') {
+      successMessage += ' (Note: Database storage blocked by security policies, but user can still access via hardcoded whitelist)';
     }
+    
+    if (emailResult.success) {
+      successMessage += ' Welcome email sent successfully!';
+    } else {
+      successMessage += ` Note: Welcome email failed to send (${emailResult.error}). User can still access the platform.`;
+    }
+
+    setSuccess(successMessage);
+    setEmail('');
+    onUserAdded();
+    
+    // Clear success message after 5 seconds (longer to read instructions)
+    setTimeout(() => setSuccess(''), 5000);
   };
 
   return (
