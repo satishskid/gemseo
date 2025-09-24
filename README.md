@@ -1,122 +1,195 @@
-# gbseo
+# GreyBrain SEO Assistant
 
-gbseo is a powerful, self-hosted web application designed to generate comprehensive, hyper-local SEO and content strategies for businesses in India. It's specifically tailored for the Healthcare, EdTech, and D2C sectors.
+A comprehensive SEO campaign management and AI-powered content generation platform built with React, TypeScript, and Supabase.
 
-Powered by the Google Gemini API, it provides actionable insights including keywords, technical SEO audits, Google Business Profile recommendations, pillar content, blog posts, and a full campaign calendar.
+## 🚀 Features
 
-## Features
+### Core Functionality
+- **AI-Powered SEO Content Generation** - Generate optimized content using Google's Gemini AI
+- **Campaign Management** - Create, manage, and track SEO campaigns
+- **Calendar Integration** - Schedule and visualize campaign timelines
+- **Real-time Results** - Live content generation and optimization suggestions
+- **User Authentication** - Secure login with email-based whitelist system
 
--   **Hyper-Local SEO:** Generates keywords and strategies focused on specific Indian pincodes or cities.
--   **Comprehensive Content Generation:** Creates long-form pillar posts, supporting blogs, and conversion-focused landing pages.
--   **Technical SEO Audit:** Provides recommendations for `robots.txt`, schema markup, performance, and more.
--   **Google Business Profile (GBP) Strategy:** Offers actionable steps to optimize your GBP listing for local search.
--   **Campaign Analysis:** (Optional) Analyzes your existing ad campaign data to provide data-driven recommendations.
--   **Interactive Campaign Calendar:** A full-featured calendar to manage and track your content publishing schedule.
--   **Secure & Private:** Your Gemini API key is stored only in your browser's session storage and is never saved to the database.
--   **Simple Authentication:** Passwordless magic link sign-in powered by Supabase.
+### Admin Features
+- **User Management** - Add/remove users from whitelist
+- **License Management** - Create and manage user licenses
+- **Email Integration** - Send welcome emails to new users
+- **System Monitoring** - Debug tools and user activity tracking
 
-## Tech Stack
+## 🛠️ Tech Stack
 
--   **Frontend:** React, TypeScript, Tailwind CSS
--   **Backend (BaaS):** Supabase (Authentication, Database)
--   **AI:** Google Gemini API (`@google/genai`)
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **Authentication**: Supabase Auth
+- **Database**: Supabase PostgreSQL
+- **AI Integration**: Google Gemini API
+- **Email Service**: Resend API
+- **Deployment**: Netlify
 
-## Prerequisites
+## 📋 Prerequisites
 
--   [Node.js](https://nodejs.org/) (v18 or later)
--   A code editor like [VS Code](https://code.visualstudio.com/)
--   A free [Supabase](https://supabase.com/) account
--   A [Google Gemini API Key](https://aistudio.google.com/app/apikey)
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+- Google Gemini API key
+- Resend API key (for emails)
 
-## Local Setup Instructions
+## 🔧 Installation & Setup
 
-Follow these steps to get the application running on your local machine.
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd gemseo
+   ```
 
-### 1. Download and Unzip the Code
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Download the project files and unzip them into a new folder on your computer.
+3. **Environment Variables**
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_GEMINI_API_KEY=your_gemini_api_key
+   VITE_RESEND_API_KEY=your_resend_api_key
+   ```
 
-### 2. Install Dependencies
+4. **Configure Whitelist**
+   Edit `config/whitelistedEmails.ts` to add authorized users:
+   ```typescript
+   export const WHITELISTED_EMAILS = [
+     'user1@example.com',
+     'user2@example.com',
+     // Add more emails here
+   ] as const;
+   ```
 
-This project uses modern web standards and an `importmap`, so it does not require a complex build step for local development. You just need a simple local server. The easiest way to do this is using the `serve` package.
+5. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-If you don't have `serve`, you can install it globally from your terminal:
-```bash
-npm install -g serve
+6. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+## 🚀 Deployment
+
+### Netlify Deployment (Recommended)
+
+1. **Connect to Netlify**
+   - Push your code to GitHub
+   - Connect your GitHub repo to Netlify
+   - Configure build settings:
+     - Build command: `npm run build`
+     - Publish directory: `dist`
+
+2. **Set Environment Variables**
+   In Netlify dashboard, add these environment variables:
+   ```
+   VITE_SUPABASE_URL
+   VITE_SUPABASE_ANON_KEY
+   VITE_GEMINI_API_KEY
+   VITE_RESEND_API_KEY
+   ```
+
+3. **Deploy**
+   - Netlify will automatically deploy on push to main branch
+   - Your app will be available at `https://your-app-name.netlify.app`
+
+### Manual Deployment
+
+1. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to your hosting service**
+   Upload the `dist` folder to your web server or hosting provider.
+
+## 🔐 Authentication System
+
+### How It Works
+- **Primary**: Hardcoded whitelist in `config/whitelistedEmails.ts`
+- **Secondary**: Supabase database (currently blocked by RLS policies)
+- **Fallback**: Admin can add users via dashboard (adds to hardcoded list)
+
+### Current Whitelisted Users
+```
+drpratichi@skids.health
+dr.satish@greybrain.ai
+dev@santaan.in
+raghab.panda@santaan.in
+Lnmishra84@gmail.com
+satish@skids.health
 ```
 
-### 3. Set Up Supabase
+## 📊 Admin Dashboard
 
-You've already completed the main setup! This includes:
--   Creating a project on Supabase.
--   Enabling the Email provider.
--   Running the SQL script in the SQL Editor to create the `profiles` table and set up the admin roles.
+Access the admin dashboard at `/admin` to:
+- Add new whitelisted users
+- Manage user licenses
+- Send welcome emails
+- Monitor system status
 
-Now, you just need to connect your code to your Supabase project.
+## 🔍 Troubleshooting
 
-### 4. Configure Supabase Credentials
+### Common Issues
 
-This is a critical step. Your code needs to know how to communicate with your Supabase project.
+1. **Authentication Fails**
+   - Check if user email is in `config/whitelistedEmails.ts`
+   - Verify Supabase credentials in environment variables
+   - Check browser console for detailed error messages
 
-1.  Open the file: `lib/supabaseClient.ts`
-2.  In your Supabase project dashboard, go to **Settings** (gear icon) > **API**.
-3.  Under **Project API Keys**, you will find your `URL` and your `anon` `public` key.
-4.  Copy these two values and paste them into the `supabaseClient.ts` file, replacing the placeholder values.
+2. **AI Content Generation Fails**
+   - Verify Gemini API key is correct
+   - Check API quota limits
+   - Review network requests in browser dev tools
 
-**Example `lib/supabaseClient.ts`:**
-```ts
-import { createClient } from '@supabase/supabase-js';
+3. **Email Sending Fails**
+   - Verify Resend API key
+   - Check email configuration in admin dashboard
+   - Review server logs for email errors
 
-// --- IMPORTANT SETUP ---
-// Replace with your Supabase Project URL and Anon Key
-const supabaseUrl = 'YOUR_SUPABASE_URL'; // Paste your URL here
-const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY'; // Paste your Anon Key here
-// --- END OF SETUP ---
+### Debug Tools
 
-// ... rest of the file
-```
+Several test scripts are available:
+- `test-complete-auth-flow.mjs` - Test authentication flow
+- `test-whitelist-config.mjs` - Verify whitelist configuration
+- `test-email.mjs` - Test email functionality
 
-### 5. Configure Supabase Site URL for Local Development
+## 📝 Environment Variables
 
-To ensure the magic links work on your local machine:
-1.  In your Supabase project dashboard, go to **Authentication** (user icon) > **URL Configuration**.
-2.  In the **Site URL** field, enter `http://localhost:3000`.
-3.  Under **Additional Redirect URLs**, add `http://localhost:3000/**`.
+| Variable | Description | Required |
+|----------|-------------|----------|
+| VITE_SUPABASE_URL | Supabase project URL | ✅ |
+| VITE_SUPABASE_ANON_KEY | Supabase anonymous key | ✅ |
+| VITE_GEMINI_API_KEY | Google Gemini API key | ✅ |
+| VITE_RESEND_API_KEY | Resend email API key | ❌ |
 
-*Note: `3000` is the default port for the `serve` package. If it uses a different port, update the URL accordingly.*
+## 🔄 Recent Updates
 
-### 6. Run the Application
+- **Authentication Fix**: Resolved RLS policy blocking issues
+- **Enhanced Error Handling**: Better feedback for authentication failures
+- **Admin Dashboard**: Improved user management interface
+- **Email Integration**: Welcome email system for new users
 
-1.  Open your terminal in the root directory of the project.
-2.  Run the following command:
-    ```bash
-    serve
-    ```
-3.  Your terminal will show you the local address, usually `http://localhost:3000`. Open this URL in your web browser.
+## 📞 Support
 
-The application should now be running locally!
+For issues and questions:
+1. Check the troubleshooting section above
+2. Review the test scripts for debugging
+3. Check browser console for detailed error messages
+4. Verify all environment variables are correctly set
 
-## Email Service Setup (For Development Team)
+## 📄 License
 
-### Domain Verification Required
-The email service currently operates in test mode and can only send emails to verified addresses. To enable full email functionality:
+This project is proprietary software. All rights reserved.
 
-1. **Choose Domain**: Decide between `greybrain.in` or `greybrain.ai` for email sending
-2. **Resend Dashboard**: Go to https://resend.com/domains
-3. **Add Domain**: Add your chosen domain and follow verification steps
-4. **DNS Records**: Add the required DNS records to your domain
-5. **Update Code**: Once verified, update `services/emailService.ts` to use your domain
+---
 
-### Pre-Whitelisted Email Addresses
-The following email addresses are pre-configured for immediate access:
-- `drpratichi@skids.health`
-- `dr.satish@greybrain.ai` 
-- `dev@santaan.in`
-- `raghab.panda@santaan.in`
-- `Lnmishra84@gmail.com`
-
-These addresses can receive welcome emails and access the platform immediately.
-
-## Deployment to Netlify
-
-See the detailed instructions provided separately for deploying your application and configuring it for a live environment.
+**Built with ❤️ for GreyBrain SEO**

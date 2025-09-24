@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend('re_KvzBi2dv_JE9vDNRriZUiakAU9kALsSTD');
+const resend = new Resend(process.env.RESEND_API_KEY || 're_KvzBi2dv_JE9vDNRriZUiakAU9kALsSTD');
 
 async function testEmail() {
   try {
@@ -19,7 +19,7 @@ async function testEmail() {
     for (const email of testEmails) {
       console.log(`\n🧪 Testing email: ${email}`);
       const { data, error } = await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'welcome@greybrain.ai',
         to: email,
         subject: 'Test Email - gbseo Configuration',
         text: 'This is a test email to verify gbseo email configuration is working.'

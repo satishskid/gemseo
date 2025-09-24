@@ -6,6 +6,7 @@ import { AuthPage } from './pages/AuthPage';
 import { AdminPage } from './pages/AdminPage';
 import type { Profile } from './types';
 import { ConfigurationMessage } from './components/ConfigurationMessage';
+import { WHITELISTED_EMAILS } from './config/whitelistedEmails';
 
 const App: React.FC = () => {
     // If Supabase is not configured, show a helpful message and stop.
@@ -39,18 +40,49 @@ const App: React.FC = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             if (session?.user) {
-                // Check if user is whitelisted
-                const { data: whitelistData, error: whitelistError } = await supabase
-                    .from('whitelisted_users')
-                    .select('id')
-                    .eq('email', session.user.email)
-                    .single();
+                // Check if user is whitelisted (hardcoded list + Supabase table)
+                const isInHardcodedWhitelist = WHITELISTED_EMAILS.includes(session.user.email);
+                
+                // For now, rely primarily on hardcoded whitelist since RLS is blocking Supabase access
+                // The admin-added users should work through the hardcoded whitelist
+                let isInSupabaseWhitelist = false;
+                let supabaseError = null;
+                
+                // Only try Supabase check if user is not in hardcoded whitelist
+                if (!isInHardcodedWhitelist) {
+                    try {
+                        const { data: whitelistData, error: whitelistError } = await supabase
+                            .from('whitelisted_users')
+                            .select('id')
+                            .eq('email', session.user.email)
+                            .single();
 
-                if (whitelistError || !whitelistData) {
+                        isInSupabaseWhitelist = !whitelistError && whitelistData;
+                        supabaseError = whitelistError;
+                    } catch (error) {
+                        console.log('Supabase whitelist check failed (RLS policy):', error);
+                        supabaseError = error;
+                        isInSupabaseWhitelist = false;
+                    }
+                }
+                
+                if (!isInHardcodedWhitelist && !isInSupabaseWhitelist) {
                     console.log('User not whitelisted:', session.user.email);
+                    console.log('Hardcoded check:', isInHardcodedWhitelist);
+                    console.log('Supabase check:', isInSupabaseWhitelist);
+                    if (supabaseError) {
+                        console.log('Supabase error details:', supabaseError);
+                    }
                     setIsWhitelisted(false);
                     setProfile(null);
                     return;
+                }
+
+                // Log successful authentication
+                if (isInHardcodedWhitelist) {
+                    console.log('✅ User authenticated via hardcoded whitelist:', session.user.email);
+                } else if (isInSupabaseWhitelist) {
+                    console.log('✅ User authenticated via Supabase whitelist:', session.user.email);
                 }
 
                 setIsWhitelisted(true);
