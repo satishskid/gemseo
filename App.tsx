@@ -57,7 +57,7 @@ const App: React.FC = () => {
                             .eq('email', session.user.email)
                             .single();
 
-                        isInSupabaseWhitelist = !whitelistError && whitelistData;
+                        isInSupabaseWhitelist = !whitelistError && !!whitelistData;
                         supabaseError = whitelistError;
                     } catch (error) {
                         console.log('Supabase whitelist check failed (RLS policy):', error);

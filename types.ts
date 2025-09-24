@@ -110,3 +110,11 @@ export interface GeminiResults {
     qualityChecklist: QualityChecklistItem[];
     socialMediaPosts: SocialMediaPost[];
 }
+
+export interface StoredGrowthPlan {
+    id: string;
+    results: GeminiResults;
+    formData: SeoFormData;
+    timestamp: number;
+    businessName: string;
+}

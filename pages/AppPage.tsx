@@ -5,6 +5,7 @@ import { Loader } from '../components/Loader';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { ResultsDisplay } from '../components/ResultsDisplay';
 import { generateGrowthPlan, generateTextSuggestion } from '../services/geminiService';
+import { saveGrowthPlan, getCurrentGrowthPlan, clearCurrentGrowthPlan } from '../services/storageService';
 import type { SeoFormData, GeminiResults, User, Profile } from '../types';
 import { AccountPage } from './AccountPage';
 import { supabase } from '../lib/supabaseClient';
@@ -40,6 +41,27 @@ export const AppPage: React.FC<AppPageProps> = ({ user, profile: initialProfile 
     const [isGeneratingAudience, setIsGeneratingAudience] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [results, setResults] = useState<GeminiResults | null>(null);
+
+    // Data recovery on component mount
+    useEffect(() => {
+        const recoverData = () => {
+            try {
+                const savedPlan = getCurrentGrowthPlan();
+                if (savedPlan) {
+                    setResults(savedPlan.results);
+                    // Optionally restore form data too
+                    if (savedPlan.formData) {
+                        setFormData(prev => ({ ...prev, ...savedPlan.formData }));
+                    }
+                    console.log('Growth plan recovered from storage');
+                }
+            } catch (error) {
+                console.error('Failed to recover growth plan:', error);
+            }
+        };
+        
+        recoverData();
+    }, []);
 
     const fetchProfile = useCallback(async () => {
         if (user) {
@@ -101,6 +123,15 @@ export const AppPage: React.FC<AppPageProps> = ({ user, profile: initialProfile 
         try {
             const response = await generateGrowthPlan(formData, apiKey);
             setResults(response);
+            
+            // Save results to persistent storage
+            try {
+                const planId = saveGrowthPlan(response, formData);
+                console.log('Growth plan saved with ID:', planId);
+            } catch (storageError) {
+                console.error('Failed to save growth plan:', storageError);
+                // Non-critical error, continue with results
+            }
         } catch (err) {
             console.error('API Call Failed:', err);
             const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
@@ -204,7 +235,7 @@ export const AppPage: React.FC<AppPageProps> = ({ user, profile: initialProfile 
                 
                 {error && <ErrorMessage message={error} />}
 
-                {results && !isLoading && <ResultsDisplay results={results} />}
+                {results && !isLoading && <ResultsDisplay results={results} formData={formData} />}
             </main>
             <footer className="text-center mt-8 text-sm text-gray-500">
                 <p>powered by greybrain.ai</p>
