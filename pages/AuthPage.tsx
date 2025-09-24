@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
+import { ValueProposition } from '../components/ValueProposition';
+
 export const AuthPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
@@ -31,15 +33,20 @@ export const AuthPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center p-4">
-            <div className="text-center mb-8">
-                <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
-                    gbseo
-                </h1>
-                <p className="mt-3 text-lg text-gray-400 max-w-2xl mx-auto">
-                    Sign in to generate your AI-powered SEO strategy.
-                </p>
-            </div>
+        <div className="min-h-screen bg-gray-900">
+            {/* Value Proposition Section */}
+            <ValueProposition />
+            
+            {/* Auth Section */}
+            <div className="flex flex-col justify-center items-center p-4 pb-16">
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+                        gbseo
+                    </h1>
+                    <p className="mt-3 text-lg text-gray-400 max-w-2xl mx-auto">
+                        Sign in to generate your AI-powered SEO strategy.
+                    </p>
+                </div>
             <div className="w-full max-w-sm bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-gray-700">
                  <p className="text-center text-gray-400 text-sm mb-6">
                     Enter your email to receive a magic link to sign in.
@@ -80,8 +87,9 @@ export const AuthPage: React.FC = () => {
                 </form>
             </div>
              <footer className="text-center mt-8 text-sm text-gray-500">
-                <p>powered by greybrain.ai</p>
-            </footer>
-        </div>
-    );
+                 <p>powered by greybrain.ai</p>
+             </footer>
+         </div>
+     </div>
+     );
 };
