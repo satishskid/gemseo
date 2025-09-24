@@ -96,6 +96,27 @@ To ensure the magic links work on your local machine:
 
 The application should now be running locally!
 
+## Email Service Setup (For Development Team)
+
+### Domain Verification Required
+The email service currently operates in test mode and can only send emails to verified addresses. To enable full email functionality:
+
+1. **Choose Domain**: Decide between `greybrain.in` or `greybrain.ai` for email sending
+2. **Resend Dashboard**: Go to https://resend.com/domains
+3. **Add Domain**: Add your chosen domain and follow verification steps
+4. **DNS Records**: Add the required DNS records to your domain
+5. **Update Code**: Once verified, update `services/emailService.ts` to use your domain
+
+### Pre-Whitelisted Email Addresses
+The following email addresses are pre-configured for immediate access:
+- `drpratichi@skids.health`
+- `dr.satish@greybrain.ai` 
+- `dev@santaan.in`
+- `raghab.panda@santaan.in`
+- `Lnmishra84@gmail.com`
+
+These addresses can receive welcome emails and access the platform immediately.
+
 ## Deployment to Netlify
 
 See the detailed instructions provided separately for deploying your application and configuring it for a live environment.

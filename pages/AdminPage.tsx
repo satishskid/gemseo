@@ -4,6 +4,7 @@ import type { User, Profile } from '../types';
 import { AppPage } from './AppPage';
 import UserWhitelist from '../components/admin/UserWhitelist';
 import LicenseManager from '../components/admin/LicenseManager';
+import EmailTest from '../components/admin/EmailTest';
 
 interface AdminPageProps {
     user: User;
@@ -62,7 +63,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ user, profile }) => {
                 )}
 
                 {activeTab === 'user-management' && (
-                    <UserWhitelist />
+                    <>
+                        <EmailTest />
+                        <UserWhitelist />
+                    </>
                 )}
 
                 {activeTab === 'license-management' && (

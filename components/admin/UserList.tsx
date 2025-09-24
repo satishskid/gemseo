@@ -30,11 +30,11 @@ const UserList: React.FC<UserListProps> = ({ users, onUserRemoved }) => {
       <h3 className="text-xl font-bold mb-2">Whitelisted Users</h3>
       <ul>
         {users.map((user) => (
-          <li key={user.id} className="flex justify-between items-center p-2 border-b">
-            <span>{user.email}</span>
+          <li key={user.id} className="flex justify-between items-center p-2 border-b border-gray-700">
+            <span className="text-white">{user.email}</span>
             <button
               onClick={() => handleRemove(user.id)}
-              className="bg-red-500 text-white p-1 rounded"
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors"
             >
               Remove
             </button>
